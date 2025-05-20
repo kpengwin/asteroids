@@ -48,6 +48,10 @@ def main():
             if a.collides_with(p):
                 print("Game over!")
                 sys.exit()
+            for s in shots:
+                if a.collides_with(s):
+                    s.kill()
+                    a.split()
         pygame.display.flip()
 
 if __name__ == "__main__":
