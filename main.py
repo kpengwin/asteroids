@@ -3,7 +3,11 @@
 # throughout this file
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+from shot import Shot
 import pygame
+import sys
 
 def main():
     pygame.init()
@@ -17,8 +21,17 @@ def main():
 
     drawable = pygame.sprite.Group()
     updateable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     Player.containers = (drawable, updateable)
+    Asteroid.containers = (asteroids, drawable, updateable)
+    AsteroidField.containers = (updateable)
+    Shot.containers = (updateable, drawable, shots)
+
     p = Player(x=SCREEN_WIDTH/2, y=SCREEN_HEIGHT/2)
+    af = AsteroidField()
+
+
 
     while True:
         # get delta time in seconds
@@ -31,6 +44,10 @@ def main():
         screen.fill(color="black")
         for d in drawable:
             d.draw(screen=screen)
+        for a in asteroids:
+            if a.collides_with(p):
+                print("Game over!")
+                sys.exit()
         pygame.display.flip()
 
 if __name__ == "__main__":
